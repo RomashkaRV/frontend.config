@@ -1,6 +1,6 @@
 {
   "name": "@romashka_rv/frontend-config",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Configs for frontend (ESLint 9, React 19, TypeScript 5)",
   "repository": "https://github.com/RomashkaRV/frontend.configs",
   "author": "RomashkaRV",
@@ -8,21 +8,23 @@
   "dependencies": {
     "@commitlint/cli": "19.8.1",
     "@commitlint/config-conventional": "19.8.1",
+    "@stylistic/eslint-plugin": "^5.2.3",
     "@typescript-eslint/eslint-plugin": "8.41.0",
     "@typescript-eslint/parser": "8.41.0",
     "commitlint": "19.8.1",
     "eslint": "9.34.0",
     "eslint-config-prettier": "10.1.8",
+    "eslint-import-resolver-typescript": "4.4.4",
     "eslint-plugin-import": "2.32.0",
     "eslint-plugin-import-helpers": "2.0.1",
-    "eslint-plugin-prettier": "5.2.4",
+    "eslint-plugin-prettier": "^5.2.4",
     "eslint-plugin-react": "7.37.5",
     "eslint-plugin-react-hooks": "5.2.0",
     "eslint-plugin-unused-imports": "4.2.0",
-    "eslint-import-resolver-typescript": "4.4.4",
     "prettier": "3.6.2",
     "stylelint": "16.23.1",
     "stylelint-config-standard-scss": "15.0.1",
-    "stylelint-order": "7.0.0"
+    "stylelint-order": "7.0.0",
+    "stylelint-scss": "^6.12.1"
   }
 }

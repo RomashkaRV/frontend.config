@@ -25,7 +25,8 @@ module.exports = {
     "react-hooks",
     "import-helpers",
     "@typescript-eslint",
-    "unused-imports"
+    "unused-imports",
+    "@stylistic"
   ],
   rules: {
     "unused-imports/no-unused-imports": "error",
@@ -33,7 +34,7 @@ module.exports = {
     "react/jsx-tag-spacing": 2,
     "no-extra-boolean-cast": "off",
     quotes: ["error", "double"],
-    "@typescript-eslint/semi": ["error", "always"],
+    "@stylistic/semi": ["error", "always"],
     "@typescript-eslint/ban-ts-comment": "warn",
     "object-curly-spacing": ["error", "always"],
     "no-case-declarations": "off",

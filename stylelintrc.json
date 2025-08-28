@@ -26,7 +26,6 @@
         ]
       }
     ],
-    "string-quotes": "double",
     "order/properties-order": [
       {
         "groupName": "width",
