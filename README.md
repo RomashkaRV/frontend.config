@@ -1,3 +1,3 @@
 # Frontend Configs
 
-Configuration files for projects.
+Configs for frontend (ESLint 9, React 19, TypeScript 5)
