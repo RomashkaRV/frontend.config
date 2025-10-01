@@ -1,6 +1,6 @@
 {
   "name": "@romashka_rv/frontend-config",
-  "version": "2.0.0",
+  "version": "2.3.0",
   "description": "Configs for frontend (ESLint 9, React 19, TypeScript 5)",
   "repository": "https://github.com/RomashkaRV/frontend.configs",
   "author": "RomashkaRV",

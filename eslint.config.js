@@ -1,57 +1,64 @@
 import js from "@eslint/js";
 import react from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
-import typescriptEslint from "@typescript-eslint/eslint-plugin";
+import tsEslint from "@typescript-eslint/eslint-plugin";
 import prettier from "eslint-plugin-prettier";
 import importPlugin from "eslint-plugin-import";
 import importHelpers from "eslint-plugin-import-helpers";
 import unusedImports from "eslint-plugin-unused-imports";
 import stylistic from "@stylistic/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
+import * as typescriptEslint from "eslint-plugin-react-hooks";
 
 const generatePathGroup = (name) => {
-  return [`/^${name}/`, `/.\\_${name}/`, `/.\\/${name}/`];
+  return [
+    `/^${name}/`,       // импорты типа layouts/...
+    `/^@${name}/`,      // импорты типа @layouts/...
+    `/^\\.\\/${name}/`  // относительные импорты типа ./layouts/...
+  ];
 };
 
 export default [
   {
     files: ["**/*.{ts,tsx}"],
-    ignores: ["./next/**"],
+    ignores: [".next/**"],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
         ecmaVersion: "latest",
         sourceType: "module",
-        ecmaFeatures: {
-          jsx: true,
-        },
-        project: ["tsconfig.json"],
+        ecmaFeatures: { jsx: true },
+        project: ["tsconfig.json"]
       },
+      globals: {
+        process: "readonly",
+        module: "readonly",
+        __dirname: "readonly",
+        require: "readonly"
+      }
     },
     plugins: {
       react,
       "react-hooks": reactHooks,
-      "@typescript-eslint": typescriptEslint,
+      "@typescript-eslint": tsEslint,
       prettier,
       import: importPlugin,
       "import-helpers": importHelpers,
       "unused-imports": unusedImports,
-      "@stylistic": stylistic,
+      "@stylistic": stylistic
     },
     settings: {
-      react: {
-        version: "19.1.0",
-      },
+      react: { version: "detect" },
       "import/resolver": {
         node: {
           paths: ["src"],
-          extensions: [".js", ".jsx", ".ts", ".tsx"],
+          extensions: [".js", ".jsx", ".ts", ".tsx"]
         },
         typescript: {
           alwaysTryTypes: true,
-          project: ["tsconfig.json"],
-        },
-      },
+          project: ["tsconfig.json"]
+        }
+      }
     },
     rules: {
       ...js.configs.recommended.rules,
@@ -93,20 +100,20 @@ export default [
               "utils",
               "assets",
               "constants",
-              "types",
+              "types"
             ].reduce((acc, name) => acc.concat(generatePathGroup(name)), []),
             "parent",
             "sibling",
-            "index",
+            "index"
           ],
-          alphabetize: { order: "asc", ignoreCase: true },
-        },
+          alphabetize: { order: "asc", ignoreCase: true }
+        }
       ],
       "eol-last": "error",
       "@typescript-eslint/consistent-type-imports": "error",
       "react/jsx-newline": "error",
       "prettier/prettier": ["error", { trailingComma: "none" }],
-      "import/no-cycle": [2, { maxDepth: 1 }],
-    },
-  },
+      "import/no-cycle": [2, { maxDepth: 1 }]
+    }
+  }
 ];
