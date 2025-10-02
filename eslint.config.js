@@ -2,26 +2,32 @@ import js from "@eslint/js";
 import react from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
 import tsEslint from "@typescript-eslint/eslint-plugin";
+import tsParser from "@typescript-eslint/parser";
 import prettier from "eslint-plugin-prettier";
 import importPlugin from "eslint-plugin-import";
 import importHelpers from "eslint-plugin-import-helpers";
 import unusedImports from "eslint-plugin-unused-imports";
 import stylistic from "@stylistic/eslint-plugin";
-import tsParser from "@typescript-eslint/parser";
-import * as typescriptEslint from "eslint-plugin-react-hooks";
+import nextPlugin from "@next/eslint-plugin-next";
+import globals from "globals";
 
 const generatePathGroup = (name) => {
   return [
-    `/^${name}/`,       // импорты типа layouts/...
-    `/^@${name}/`,      // импорты типа @layouts/...
-    `/^\\.\\/${name}/`  // относительные импорты типа ./layouts/...
+    `/^${name}/`,       // import like: layouts/...
+    `/^@${name}/`,      // import like: @layouts/...
+    `/^\\.\\/${name}/`  // import like: ./layouts/...
   ];
 };
 
 export default [
   {
-    files: ["**/*.{ts,tsx}"],
-    ignores: [".next/**"],
+    files: ["**/*.{ts,tsx,js,jsx}"],
+    ignores: [
+      "**/node_modules/**",
+      "**/.next/**",
+      "**/dist/**",
+      "**/build/**"
+    ],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
@@ -31,10 +37,8 @@ export default [
         project: ["tsconfig.json"]
       },
       globals: {
-        process: "readonly",
-        module: "readonly",
-        __dirname: "readonly",
-        require: "readonly"
+        ...globals.browser,
+        ...globals.node
       }
     },
     plugins: {
@@ -45,7 +49,8 @@ export default [
       import: importPlugin,
       "import-helpers": importHelpers,
       "unused-imports": unusedImports,
-      "@stylistic": stylistic
+      "@stylistic": stylistic,
+      "@next/next": nextPlugin
     },
     settings: {
       react: { version: "detect" },
@@ -61,30 +66,53 @@ export default [
       }
     },
     rules: {
+      // --- base ---
       ...js.configs.recommended.rules,
+
+      // --- react ---
       ...react.configs.recommended.rules,
-      ...typescriptEslint.configs.recommended.rules,
+
+      // --- typescript ---
+      ...tsEslint.configs.recommended.rules,
+
+      // --- prettier ---
       ...prettier.configs.recommended.rules,
+
+      // --- imports ---
       ...importPlugin.configs.recommended.rules,
+
+      // --- next.js ---
+      ...nextPlugin.configs.recommended.rules,
+
+      // --- custom ---
       "unused-imports/no-unused-imports": "error",
       "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "off",
+
+      // jsx/props
+      "react/no-unknown-property": ["error", { ignore: ["classNames"] }],
+      "react/react-in-jsx-scope": "off",
+      "react/no-unescaped-entities": "off",
+
+      // style
       "react/jsx-tag-spacing": ["error"],
-      "no-extra-boolean-cast": "off",
+      "react/jsx-newline": "error",
       quotes: ["error", "double"],
       "@stylistic/semi": ["error", "always"],
-      "@typescript-eslint/ban-ts-comment": "warn",
       "object-curly-spacing": ["error", "always"],
-      "no-case-declarations": "off",
-      "no-trailing-spaces": ["error", { skipBlankLines: true }],
-      "@typescript-eslint/no-empty-function": "off",
-      "react/react-in-jsx-scope": "off",
       "comma-dangle": ["error", "never"],
-      "@typescript-eslint/no-non-null-assertion": "off",
-      "react/no-unescaped-entities": "off",
       "linebreak-style": ["error", "unix"],
-      eqeqeq: ["error", "always", { null: "ignore" }],
-      "react-hooks/exhaustive-deps": "off",
+      "no-trailing-spaces": ["error", { skipBlankLines: true }],
       "no-multiple-empty-lines": ["error", { max: 1, maxBOF: 0, maxEOF: 0 }],
+      "eol-last": "error",
+
+      // ts
+      "@typescript-eslint/ban-ts-comment": "warn",
+      "@typescript-eslint/no-empty-function": "off",
+      "@typescript-eslint/no-non-null-assertion": "off",
+      "@typescript-eslint/consistent-type-imports": "error",
+
+      // imports ordering
       "import-helpers/order-imports": [
         "error",
         {
@@ -109,11 +137,13 @@ export default [
           alphabetize: { order: "asc", ignoreCase: true }
         }
       ],
-      "eol-last": "error",
-      "@typescript-eslint/consistent-type-imports": "error",
-      "react/jsx-newline": "error",
-      "prettier/prettier": ["error", { trailingComma: "none" }],
-      "import/no-cycle": [2, { maxDepth: 1 }]
+
+      // dep
+      eqeqeq: ["error", "always", { null: "ignore" }],
+      "import/no-cycle": [2, { maxDepth: 1 }],
+      "no-extra-boolean-cast": "off",
+      "no-case-declarations": "off",
+      "prettier/prettier": ["error", { trailingComma: "none" }]
     }
   }
 ];
