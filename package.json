@@ -1,6 +1,6 @@
 {
   "name": "@romashka_rv/frontend-config",
-  "version": "2.6.0",
+  "version": "2.7.0",
   "description": "Configs for frontend (ESLint 9, React 19, TypeScript 5)",
   "repository": "https://github.com/RomashkaRV/frontend.configs",
   "author": "RomashkaRV",
@@ -29,5 +29,8 @@
     "stylelint-config-standard-scss": "^15.0.0",
     "stylelint-order": "^7.0.0",
     "stylelint-scss": "^6.0.0"
+  },
+  "exports": {
+    "./commitlint": "./commitlint.config.cjs"
   }
 }
